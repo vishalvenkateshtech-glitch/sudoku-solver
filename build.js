@@ -13,7 +13,7 @@ fs.mkdirSync(path.join(ROOT, 'dist'), { recursive: true });
 
 // app.js lives in static/
 let js = fs.readFileSync(path.join(ROOT, 'static', 'app.js'), 'utf8');
-js = js.replace(/__API_BASE__/g, JSON.stringify(API_BASE));
+js = js.replace(/__API_BASE__/g, API_BASE);
 fs.writeFileSync(path.join(ROOT, 'dist', 'app.js'), js);
 
 // style.css lives in static/
