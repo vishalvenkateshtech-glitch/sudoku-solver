@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<div class="app-wrapper">
+
+    <header>
+        <h1>SUDOKU</h1>
+        <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
+            <span id="themeIcon">☾</span>
+        </button>
+    </header>
+
+    <div class="status-bar">
+        <div id="timer" class="timer">00:00</div>
+        <div id="difficulty-badge" class="difficulty-badge"></div>
+    </div>
+
+    <div id="message"></div>
+
+    <div id="grid"></div>
+
+    <div id="numpad"></div>
+
+    <div class="controls">
+        <div class="control-row difficulty-row">
+            <button class="diff-btn" onclick="generatePuzzle('easy')">Easy</button>
+            <button class="diff-btn" onclick="generatePuzzle('medium')">Medium</button>
+            <button class="diff-btn" onclick="generatePuzzle('hard')">Hard</button>
+        </div>
+        <div class="control-row action-row">
+            <button class="action-btn" onclick="startTimer()">▶ Start</button>
+            <button class="action-btn" onclick="undo()" title="Ctrl+Z">↩ Undo</button>
+            <button class="action-btn" onclick="redo()" title="Ctrl+Y">↪ Redo</button>
+            <button class="action-btn" onclick="giveHint()">💡 Hint</button>
+        </div>
+        <div class="control-row bottom-row">
+            <button class="action-btn new-game-btn" onclick="newGame()">⟳ New Game</button>
+            <button id="solveBtn" class="action-btn solve-btn" onclick="solveSudoku()">⚡ Solve</button>
+            <button class="action-btn ghost-btn" onclick="resetPuzzle()">Reset</button>
+            <button class="action-btn ghost-btn" onclick="clearBoard()">Clear</button>
+        </div>
+    </div>
+
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

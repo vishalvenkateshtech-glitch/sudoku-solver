@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: sudoku-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --threads 4 --bind 0.0.0.0:$PORT
+    envVars:
+      - key: ALLOWED_ORIGIN
+        value: https://your-app.vercel.app   # replace with your actual Vercel URL
+    healthCheckPath: /health
