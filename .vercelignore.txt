@@ -1,0 +1,8 @@
+app.py
+solver.py
+requirements.txt
+render.yaml
+__pycache__/
+*.pyc
+.venv/
+venv/
