@@ -2,6 +2,48 @@ import random
 import copy
 
 
+# ── Board validation ──────────────────────────────────────────────────────────
+
+def is_valid_board(board):
+    """
+    Return (True, None) if the board's given clues are self-consistent,
+    (False, reason) otherwise.  Does NOT check whether the puzzle is solvable.
+    """
+    for row in range(9):
+        seen = set()
+        for col in range(9):
+            v = board[row][col]
+            if v == 0:
+                continue
+            if v in seen:
+                return False, f"Duplicate {v} in row {row}"
+            seen.add(v)
+
+    for col in range(9):
+        seen = set()
+        for row in range(9):
+            v = board[row][col]
+            if v == 0:
+                continue
+            if v in seen:
+                return False, f"Duplicate {v} in column {col}"
+            seen.add(v)
+
+    for br in range(3):
+        for bc in range(3):
+            seen = set()
+            for i in range(3):
+                for j in range(3):
+                    v = board[br * 3 + i][bc * 3 + j]
+                    if v == 0:
+                        continue
+                    if v in seen:
+                        return False, f"Duplicate {v} in box ({br},{bc})"
+                    seen.add(v)
+
+    return True, None
+
+
 # ── Core helpers ──────────────────────────────────────────────────────────────
 
 def is_valid(board, row, col, num):
@@ -23,7 +65,11 @@ def is_valid(board, row, col, num):
 
 
 def solve(board):
-    """Standard deterministic solver (used for the /solve endpoint)."""
+    """
+    Deterministic backtracking solver.
+    Mutates `board` in-place.
+    Returns True if solved, False if no solution exists.
+    """
     for row in range(9):
         for col in range(9):
             if board[row][col] == 0:
@@ -33,8 +79,8 @@ def solve(board):
                         if solve(board):
                             return True
                         board[row][col] = 0
-                return False
-    return True
+                return False   # no number worked → unsolvable from here
+    return True                # no empty cell → fully solved
 
 
 def solve_random(board):
@@ -58,9 +104,8 @@ def solve_random(board):
 
 def _count_solutions(board, limit=2):
     """
-    Count solutions up to `limit`.  Stops as soon as it finds `limit` solutions
-    so we never waste time exploring beyond what we need to know.
-    Returns the count found (0, 1, or 2).
+    Count solutions up to `limit`, stopping early once reached.
+    Returns the count (0, 1, or `limit`).
     """
     for row in range(9):
         for col in range(9):
@@ -74,7 +119,7 @@ def _count_solutions(board, limit=2):
                         if count >= limit:
                             return count
                 return count
-    return 1   # no empty cell found → this is a complete solution
+    return 1   # no empty cell → complete solution
 
 
 def has_unique_solution(board):
@@ -92,18 +137,16 @@ def generate_full_board():
 
 def generate_puzzle(difficulty="easy"):
     """
-    Generate a puzzle that is guaranteed to have exactly one solution.
+    Generate a puzzle guaranteed to have exactly one solution.
 
-    Strategy: start from a full board, shuffle all cell positions, then try
-    removing each cell.  After every removal we check uniqueness; if the
-    puzzle would become ambiguous we put the value back and skip that cell.
-    We keep going until we've removed the target number of clues or exhausted
-    all cells.
+    Removes cells one at a time in random order; skips any removal that would
+    create a second solution.  Stops when the target clue count is reached or
+    all cells have been tried.
     """
     board = generate_full_board()
 
     targets = {"easy": 35, "medium": 45, "hard": 55}
-    target_removals = targets.get(difficulty, 35)
+    target_removals = targets[difficulty]   # KeyError impossible — validated in app.py
 
     cells = [(r, c) for r in range(9) for c in range(9)]
     random.shuffle(cells)
@@ -119,6 +162,6 @@ def generate_puzzle(difficulty="easy"):
         if has_unique_solution(board):
             removed += 1
         else:
-            board[row][col] = backup   # restore — removing this cell breaks uniqueness
+            board[row][col] = backup
 
     return board
