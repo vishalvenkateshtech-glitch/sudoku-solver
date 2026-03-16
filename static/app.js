@@ -11,9 +11,7 @@ let currentDifficulty = null;   // ← track current difficulty for New Game
 // In production (Vercel) this is injected at build time via NEXT_PUBLIC_ or
 // a simple replacement in vercel.json.  Locally it's empty so relative paths
 // work as before.
-const API_BASE = (typeof __API_BASE__ !== 'undefined' && __API_BASE__)
-    ? __API_BASE__
-    : '';
+const API_BASE = '__API_BASE__';
 
 // ── Dark mode ─────────────────────────────────────────────────────────────────
 function toggleTheme() {
