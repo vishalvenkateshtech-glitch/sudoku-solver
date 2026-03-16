@@ -56,11 +56,11 @@ body.dark {
     --bg:            #12110f;
     --bg-card:       #1e1c18;
     --bg-cell:       #252319;
-    --bg-cell-focus: #1a2535;
-    --bg-cell-hl:    #2a2720;
-    --bg-cell-sel:   #1e3050;
+    --bg-cell-focus: #1e3a5f;
+    --bg-cell-hl:    #3a3628;
+    --bg-cell-sel:   #2a4a7f;
     --bg-cell-clue:  #2a2618;
-    --bg-mistake:    #2e1515;
+    --bg-mistake:    #4a1f1f;
 
     --text-primary:  #f0ede5;
     --text-clue:     #82aadf;
@@ -85,9 +85,9 @@ body.dark {
     --gradient-btn:  linear-gradient(135deg, #c8922a, #e0ac4a);
     --gradient-solve:linear-gradient(135deg, #1a3a6b, #2a5aab);
 
-    --same-num-bg:          #3d2e00;
-    --same-num-related-bg:  #6b4f00;
-    --same-num-color:       #fde9b0;
+    --same-num-bg:          #5a4400;
+    --same-num-related-bg:  #8a6800;
+    --same-num-color:       #ffe8a0;
 }
 
 /* ══════════════════════════════════════════
