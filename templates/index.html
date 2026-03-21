@@ -13,44 +13,76 @@
 
 <div class="grain"></div>
 
+<!-- ── Onboarding overlay ── -->
+<div id="onboarding" class="onboarding-overlay">
+    <div class="onboarding-card">
+        <h2>How to Play</h2>
+        <ul class="onboarding-steps">
+            <li><span class="step-num">1</span><span>Pick a difficulty — <strong>Easy</strong>, <strong>Medium</strong>, or <strong>Hard</strong> to generate a puzzle</span></li>
+            <li><span class="step-num">2</span><span>The timer starts automatically — fill in the grid!</span></li>
+            <li><span class="step-num">3</span><span>Click a cell and type a number (1–9) or use <kbd>Delete</kbd> to erase</span></li>
+            <li><span class="step-num">4</span><span>Wrong entries are highlighted in <strong style="color:#e53935">red</strong> automatically</span></li>
+            <li><span class="step-num">5</span><span>Use <strong>arrow keys</strong> to navigate between cells</span></li>
+            <li><span class="step-num">6</span><span>Stuck? Use <strong>💡 Hint</strong> to reveal one correct cell</span></li>
+            <li><span class="step-num">7</span><span><kbd>Ctrl+Z</kbd> / <kbd>Ctrl+Y</kbd> to undo / redo. <strong>⏸ Pause</strong> to pause the timer.</span></li>
+        </ul>
+        <button class="onboarding-btn" onclick="dismissOnboarding()">Got it — Let's Play!</button>
+        <p class="onboarding-skip">Click anywhere outside to dismiss</p>
+    </div>
+</div>
+
 <div class="app-wrapper">
 
+    <!-- Header -->
     <header>
         <h1>SUDOKU</h1>
-        <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">
+        <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">
             <span id="themeIcon">☾</span>
         </button>
     </header>
 
+    <!-- Status: timer + badge + pause -->
     <div class="status-bar">
         <div id="timer" class="timer">00:00</div>
         <div id="difficulty-badge" class="difficulty-badge"></div>
+        <button class="icon-btn pause-btn" id="pauseBtn" onclick="togglePause()" title="Pause" style="display:none">⏸</button>
     </div>
 
     <div id="message"></div>
 
-    <div id="grid"></div>
+    <!-- Grid -->
+    <div id="grid-wrapper">
+        <div id="grid"></div>
+        <div id="pause-overlay" class="pause-overlay" style="display:none">
+            <span>⏸ Paused</span>
+        </div>
+    </div>
 
-    <div id="numpad"></div>
-
+    <!-- Controls: grouped into three logical zones -->
     <div class="controls">
-        <div class="control-row difficulty-row">
+
+        <!-- Zone 1: New game — the primary action, front and centre -->
+        <div class="control-row">
             <button class="diff-btn" onclick="generatePuzzle('easy')">Easy</button>
             <button class="diff-btn" onclick="generatePuzzle('medium')">Medium</button>
             <button class="diff-btn" onclick="generatePuzzle('hard')">Hard</button>
+            <button class="action-btn new-game-btn" onclick="newGame()">⟳ New Game</button>
         </div>
-        <div class="control-row action-row">
-            <button class="action-btn" onclick="startTimer()">▶ Start</button>
+
+        <!-- Zone 2: In-game actions -->
+        <div class="control-row">
             <button class="action-btn" onclick="undo()" title="Ctrl+Z">↩ Undo</button>
             <button class="action-btn" onclick="redo()" title="Ctrl+Y">↪ Redo</button>
             <button class="action-btn" onclick="giveHint()">💡 Hint</button>
-        </div>
-        <div class="control-row bottom-row">
-            <button class="action-btn new-game-btn" onclick="newGame()">⟳ New Game</button>
             <button id="solveBtn" class="action-btn solve-btn" onclick="solveSudoku()">⚡ Solve</button>
-            <button class="action-btn ghost-btn" onclick="resetPuzzle()">Reset</button>
-            <button class="action-btn ghost-btn" onclick="clearBoard()">Clear</button>
         </div>
+
+        <!-- Zone 3: Board management — less prominent -->
+        <div class="control-row">
+            <button class="action-btn ghost-btn" onclick="resetPuzzle()">↺ Reset</button>
+            <button class="action-btn ghost-btn" onclick="clearBoard()">✕ Clear</button>
+        </div>
+
     </div>
 
 </div>

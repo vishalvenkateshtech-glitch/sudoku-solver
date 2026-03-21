@@ -41,8 +41,8 @@
     --radius-btn:    10px;
     --radius-card:   18px;
 
-    --cell-size: clamp(36px, 6vw, 50px);
-    --cell-font: clamp(14px, 2.4vw, 20px);
+    --cell-size: clamp(48px, 7.5vw, 62px);
+    --cell-font: clamp(16px, 2.8vw, 24px);
 
     --same-num-bg:          #fde9b0;
     --same-num-related-bg:  #f7c94a;
@@ -226,6 +226,7 @@ h1 {
     box-shadow: var(--shadow-grid);
     background: var(--bg-card);
     transition: box-shadow 0.4s;
+    margin: 20px auto 0;
 }
 
 .cell {
@@ -293,61 +294,32 @@ h1 {
 }
 
 /* ══════════════════════════════════════════
-   Number Pad
+   Grid wrapper + Pause overlay
 ══════════════════════════════════════════ */
-#numpad {
-    display: grid;
-    grid-template-columns: repeat(3, clamp(52px, 14vw, 68px));
-    gap: 8px;
+#grid-wrapper {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto 16px;
+}
+
+.pause-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(6px);
+    border-radius: var(--radius-card);
+    display: flex;
+    align-items: center;
     justify-content: center;
-    margin: 0 auto 18px;
-}
-
-.num-spacer {
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.num-btn {
-    width:  clamp(52px, 14vw, 68px);
-    height: clamp(52px, 14vw, 68px);
-    font-size: clamp(18px, 4vw, 24px);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    border: 1.5px solid var(--border-cell);
-    border-radius: var(--radius-btn);
-    background: var(--bg-card);
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: all 0.15s;
-    padding: 0;
-    box-shadow: var(--shadow-card);
-}
-
-.num-btn:hover {
-    background: var(--accent-light);
-    border-color: var(--accent);
-    color: var(--accent-dark);
-    transform: translateY(-1px);
-}
-
-.num-btn.active {
-    background: var(--gradient-btn);
+    z-index: 10;
     color: white;
-    border-color: transparent;
-    box-shadow: var(--shadow-btn);
-    transform: translateY(-1px);
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(24px, 5vw, 36px);
+    letter-spacing: 0.1em;
 }
 
-.erase-btn {
-    background: var(--bg-card);
-    border-color: var(--border-cell);
-    color: var(--text-muted);
-}
-.erase-btn:hover {
-    background: var(--bg-mistake);
-    border-color: var(--text-mistake);
-    color: var(--text-mistake);
+.pause-btn {
+    font-size: 16px !important;
 }
 
 /* ══════════════════════════════════════════
