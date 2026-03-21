@@ -72,31 +72,94 @@
 
     <div id="message"></div>
 
-    <div id="grid-wrapper">
-        <div id="grid"></div>
-        <div id="pause-overlay" class="pause-overlay" style="display:none">
-            <span>⏸ Paused</span>
-        </div>
-    </div>
+    <!-- ── Game layout: board left, rules right on desktop ── -->
+    <div class="game-layout">
 
-    <div class="controls">
-        <div class="control-row">
-            <button class="diff-btn" onclick="generatePuzzle('easy')">Easy</button>
-            <button class="diff-btn" onclick="generatePuzzle('medium')">Medium</button>
-            <button class="diff-btn" onclick="generatePuzzle('hard')">Hard</button>
-            <button class="action-btn new-game-btn" onclick="newGame()">⟳ New Game</button>
+        <!-- Left: grid + controls -->
+        <div class="game-main">
+            <div id="grid-wrapper">
+                <div id="grid"></div>
+                <div id="pause-overlay" class="pause-overlay" style="display:none">
+                    <span>⏸ Paused</span>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="control-row">
+                    <button class="diff-btn" onclick="generatePuzzle('easy')">Easy</button>
+                    <button class="diff-btn" onclick="generatePuzzle('medium')">Medium</button>
+                    <button class="diff-btn" onclick="generatePuzzle('hard')">Hard</button>
+                    <button class="action-btn new-game-btn" onclick="newGame()">⟳ New Game</button>
+                </div>
+                <div class="control-row">
+                    <button class="action-btn" onclick="undo()" title="Ctrl+Z">↩ Undo</button>
+                    <button class="action-btn" onclick="redo()" title="Ctrl+Y">↪ Redo</button>
+                    <button class="action-btn" onclick="giveHint()">💡 Hint</button>
+                    <button id="solveBtn" class="action-btn solve-btn" onclick="solveSudoku()">⚡ Solve</button>
+                </div>
+                <div class="control-row">
+                    <button class="action-btn ghost-btn" onclick="resetPuzzle()">↺ Reset</button>
+                    <button class="action-btn ghost-btn" onclick="clearBoard()">✕ Clear</button>
+                </div>
+            </div>
         </div>
-        <div class="control-row">
-            <button class="action-btn" onclick="undo()" title="Ctrl+Z">↩ Undo</button>
-            <button class="action-btn" onclick="redo()" title="Ctrl+Y">↪ Redo</button>
-            <button class="action-btn" onclick="giveHint()">💡 Hint</button>
-            <button id="solveBtn" class="action-btn solve-btn" onclick="solveSudoku()">⚡ Solve</button>
-        </div>
-        <div class="control-row">
-            <button class="action-btn ghost-btn" onclick="resetPuzzle()">↺ Reset</button>
-            <button class="action-btn ghost-btn" onclick="clearBoard()">✕ Clear</button>
-        </div>
-    </div>
+
+        <!-- Right: rules panel -->
+        <aside class="rules-panel">
+            <h2 class="rules-title">How to Play Sudoku</h2>
+
+            <div class="rules-section">
+                <h3 class="rules-subtitle">The Goal</h3>
+                <p class="rules-text">Fill every empty cell with a number from <strong>1 to 9</strong> so that no number repeats in any row, column, or 3×3 box.</p>
+            </div>
+
+            <div class="rules-section">
+                <h3 class="rules-subtitle">The Three Rules</h3>
+                <ul class="rules-list">
+                    <li class="rules-item">
+                        <span class="rules-icon">→</span>
+                        <div>
+                            <strong>Every row</strong> must contain the numbers 1–9 with no repetition.
+                        </div>
+                    </li>
+                    <li class="rules-item">
+                        <span class="rules-icon">↓</span>
+                        <div>
+                            <strong>Every column</strong> must contain the numbers 1–9 with no repetition.
+                        </div>
+                    </li>
+                    <li class="rules-item">
+                        <span class="rules-icon">⊞</span>
+                        <div>
+                            <strong>Every 3×3 box</strong> must contain the numbers 1–9 with no repetition.
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3 class="rules-subtitle">Controls</h3>
+                <ul class="rules-controls-list">
+                    <li><kbd>1</kbd>–<kbd>9</kbd> Type to fill a cell</li>
+                    <li><kbd>Del</kbd> Erase a cell</li>
+                    <li><kbd>↑↓←→</kbd> Navigate cells</li>
+                    <li><kbd>Ctrl+Z</kbd> Undo last move</li>
+                    <li><kbd>Ctrl+Y</kbd> Redo last move</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3 class="rules-subtitle">Tips</h3>
+                <ul class="rules-tips">
+                    <li>🔵 <span>Blue cells are given clues — they can't be changed</span></li>
+                    <li>🔴 <span>Red cells contain a mistake — fix them!</span></li>
+                    <li>🟡 <span>Amber cells share a number with the selected cell</span></li>
+                    <li>💡 <span>Use Hint to reveal one correct answer</span></li>
+                </ul>
+            </div>
+        </aside>
+
+    </div><!-- /.game-layout -->
 
 </div>
 

@@ -542,3 +542,178 @@ h1 {
     margin-top: 10px;
     margin-bottom: 0;
 }
+
+/* ══════════════════════════════════════════
+   Game layout — board + rules side by side
+══════════════════════════════════════════ */
+
+/* Widen the outer wrapper to accommodate both columns */
+.app-wrapper {
+    max-width: 1000px !important;
+}
+
+.game-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 28px;
+    justify-content: center;
+}
+
+.game-main {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ── Rules panel ── */
+.rules-panel {
+    flex: 1;
+    min-width: 220px;
+    max-width: 300px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-card);
+    padding: 20px 22px;
+    box-shadow: var(--shadow-card);
+    position: sticky;
+    top: 20px;
+    align-self: flex-start;
+}
+
+.rules-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-light);
+    letter-spacing: 0.02em;
+}
+
+.rules-section {
+    margin-bottom: 16px;
+}
+
+.rules-subtitle {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.rules-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+/* Three rules list */
+.rules-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rules-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+
+.rules-icon {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+}
+
+/* Controls shortcut list */
+.rules-controls-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.rules-controls-list li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.rules-controls-list kbd,
+.rules-panel kbd {
+    background: var(--bg-cell-hl);
+    border: 1px solid var(--border-cell);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-size: 11px;
+    font-family: monospace;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+/* Tips list */
+.rules-tips {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rules-tips li {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.rules-tips li span {
+    flex: 1;
+}
+
+/* ── Responsive: stack on mobile ── */
+@media (max-width: 780px) {
+    .game-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .rules-panel {
+        max-width: 100%;
+        width: 100%;
+        position: static;
+        margin-top: 8px;
+    }
+
+    .app-wrapper {
+        max-width: 520px !important;
+    }
+}
