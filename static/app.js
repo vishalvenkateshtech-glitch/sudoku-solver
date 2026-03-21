@@ -14,15 +14,11 @@ const API_BASE = '__API_BASE__';
 // ── Onboarding ────────────────────────────────────────────────────────────────
 function dismissOnboarding() {
     document.getElementById('onboarding').classList.add('onboarding-hidden');
-    localStorage.setItem('sudoku-seen', '1');
 }
 document.getElementById('onboarding').addEventListener('click', function(e) {
     if (e.target === this) dismissOnboarding();
 });
-(function initOnboarding() {
-    if (localStorage.getItem('sudoku-seen'))
-        document.getElementById('onboarding').classList.add('onboarding-hidden');
-})();
+// Onboarding shows on every load — click backdrop or button to dismiss
 
 // ── Dark mode ─────────────────────────────────────────────────────────────────
 function toggleTheme() {
