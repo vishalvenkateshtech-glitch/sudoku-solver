@@ -1,6 +1,10 @@
 import os
 import copy
 import concurrent.futures
+import sys
+
+# Sudoku backtracking needs deeper recursion than Python's default 1000
+sys.setrecursionlimit(10000)
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
