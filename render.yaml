@@ -3,8 +3,8 @@ services:
     name: sudoku-api
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app --workers 2 --threads 4 --bind 0.0.0.0:$PORT
+    startCommand: gunicorn app:app --workers 2 --threads 4 --bind "0.0.0.0:$PORT"
     envVars:
       - key: ALLOWED_ORIGIN
-        value: https://sudoku-solver-two-tau.vercel.app   # replace with your actual Vercel URL
+        value: https://sudoku-solver-two-tau.vercel.app
     healthCheckPath: /health
