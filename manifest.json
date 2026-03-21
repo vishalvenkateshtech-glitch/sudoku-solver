@@ -1,11 +1,11 @@
 {
   "name": "Sudoku Solver",
   "short_name": "Sudoku",
-  "description": "A Sudoku puzzle generator and solver with hint system, mistake highlighting, and dark mode.",
+  "description": "A Sudoku puzzle generator and solver with hints, mistake highlighting, and dark mode.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#1a1814",
+  "background_color": "#12181c",
   "theme_color": "#c8922a",
   "icons": [
     {
@@ -27,7 +27,9 @@
       "purpose": "maskable"
     }
   ],
-  "categories": ["games", "entertainment"],
-  "screenshots": [],
+  "categories": [
+    "games",
+    "entertainment"
+  ],
   "prefer_related_applications": false
 }

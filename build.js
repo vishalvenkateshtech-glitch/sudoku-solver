@@ -21,6 +21,7 @@ const staticFiles = [
     'icon-192x192.png',
     'icon-512x512.png',
     'icon-maskable.png',
+    'icon-180x180.png',
     'manifest.json',
     'sw.js'
 ];
@@ -43,6 +44,7 @@ html = html
     .replace(/\/static\/icon-192x192\.png/g, 'icon-192x192.png')
     .replace(/\/static\/icon-512x512\.png/g, 'icon-512x512.png')
     .replace(/\/static\/icon-maskable\.png/g,'icon-maskable.png')
+    .replace(/\/static\/icon-180x180\.png/g,'icon-180x180.png')
     // SW scope must be / but the file is at root of dist
     .replace("scope: '/'", "scope: '/'");
 fs.writeFileSync(path.join(ROOT, 'dist', 'index.html'), html);
