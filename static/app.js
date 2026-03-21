@@ -325,7 +325,6 @@ function autoStartTimer() {
     startTime = Date.now();
     timerInterval = setInterval(updateTimer, 1000);
     lockPuzzle();
-    document.getElementById("solveBtn").disabled = true;
     solved = false;
 }
 
