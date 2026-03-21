@@ -1,19 +1,16 @@
-Index · HTML
-Copy
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Sudoku</title>
- 
+
     <!-- PWA manifest -->
     <link rel="manifest" href="/static/manifest.json">
- 
+
     <!-- Theme colour (Android Chrome toolbar + task switcher) -->
     <meta name="theme-color" content="#c8922a">
- 
+
     <!-- iOS PWA meta tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,26 +18,26 @@ Copy
     <link rel="apple-touch-icon" sizes="180x180" href="/static/icon-180x180.png">
     <link rel="apple-touch-icon" sizes="192x192" href="/static/icon-192x192.png">
     <link rel="apple-touch-icon" sizes="512x512" href="/static/icon-512x512.png">
- 
+
     <!-- Splash screen background for iOS (matches our dark bg) -->
     <meta name="msapplication-TileColor" content="#1a1814">
     <meta name="msapplication-TileImage" content="/static/icon-192x192.png">
- 
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="192x192" href="/static/icon-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/static/icon-512x512.png">
- 
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
- 
+
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
- 
+
 <div class="grain"></div>
- 
+
 <!-- ── Onboarding overlay ── -->
 <div id="onboarding" class="onboarding-overlay">
     <div class="onboarding-card">
@@ -58,27 +55,32 @@ Copy
         <p class="onboarding-skip">Click anywhere outside to dismiss</p>
     </div>
 </div>
- 
+
 <div class="app-wrapper">
- 
+
     <header>
         <h1>SUDOKU</h1>
-        <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">
-            <span id="themeIcon">☾</span>
-        </button>
+        <div class="header-actions">
+            <button class="install-btn" id="installBtn" style="display:none" title="Install App">
+                ⬇ Install
+            </button>
+            <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle dark mode">
+                <span id="themeIcon">☾</span>
+            </button>
+        </div>
     </header>
- 
+
     <div class="status-bar">
         <div id="timer" class="timer">00:00</div>
         <div id="difficulty-badge" class="difficulty-badge"></div>
         <button class="icon-btn pause-btn" id="pauseBtn" onclick="togglePause()" title="Pause" style="display:none">⏸</button>
     </div>
- 
+
     <div id="message"></div>
- 
+
     <!-- ── Game layout: board left, rules right on desktop ── -->
     <div class="game-layout">
- 
+
         <!-- Left: grid + controls -->
         <div class="game-main">
             <div id="grid-wrapper">
@@ -87,7 +89,7 @@ Copy
                     <span>⏸ Paused</span>
                 </div>
             </div>
- 
+
             <div class="controls">
                 <div class="control-row">
                     <button class="diff-btn" onclick="generatePuzzle('easy')">Easy</button>
@@ -107,16 +109,16 @@ Copy
                 </div>
             </div>
         </div>
- 
+
         <!-- Right: rules panel -->
         <aside class="rules-panel">
             <h2 class="rules-title">How to Play Sudoku</h2>
- 
+
             <div class="rules-section">
                 <h3 class="rules-subtitle">The Goal</h3>
                 <p class="rules-text">Fill every empty cell with a number from <strong>1 to 9</strong> so that no number repeats in any row, column, or 3×3 box.</p>
             </div>
- 
+
             <div class="rules-section">
                 <h3 class="rules-subtitle">The Three Rules</h3>
                 <ul class="rules-list">
@@ -140,7 +142,7 @@ Copy
                     </li>
                 </ul>
             </div>
- 
+
             <div class="rules-section">
                 <h3 class="rules-subtitle">Controls</h3>
                 <ul class="rules-controls-list">
@@ -151,7 +153,7 @@ Copy
                     <li><kbd>Ctrl+Y</kbd> Redo last move</li>
                 </ul>
             </div>
- 
+
             <div class="rules-section">
                 <h3 class="rules-subtitle">Tips</h3>
                 <ul class="rules-tips">
@@ -162,15 +164,42 @@ Copy
                 </ul>
             </div>
         </aside>
- 
+
     </div><!-- /.game-layout -->
- 
+
 </div>
- 
+
 <script src="/static/app.js"></script>
- 
+
 <!-- Register service worker -->
 <script>
+// ── PWA Install prompt ────────────────────────────────────────────────────────
+let deferredInstallPrompt = null;
+const installBtn = document.getElementById('installBtn');
+
+// Capture the browser's install prompt before it fires
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    installBtn.style.display = 'flex';
+});
+
+installBtn.addEventListener('click', async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    const { outcome } = await deferredInstallPrompt.userChoice;
+    console.log('[PWA] Install outcome:', outcome);
+    deferredInstallPrompt = null;
+    installBtn.style.display = 'none';
+});
+
+// Hide button once app is installed
+window.addEventListener('appinstalled', () => {
+    installBtn.style.display = 'none';
+    deferredInstallPrompt = null;
+    console.log('[PWA] App installed');
+});
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/static/sw.js', { scope: '/' })
@@ -179,7 +208,6 @@ if ('serviceWorker' in navigator) {
     });
 }
 </script>
- 
+
 </body>
 </html>
- 
