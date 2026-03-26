@@ -1,3 +1,36 @@
+// ── Login ─────────────────────────────────────────────────────────────────────
+function handleLogin() {
+    const input = document.getElementById('loginInput');
+    const name  = input.value.trim();
+    if (!name) {
+        input.classList.add('login-error');
+        input.placeholder = 'Please enter your name!';
+        input.focus();
+        setTimeout(() => {
+            input.classList.remove('login-error');
+            input.placeholder = 'Your name';
+        }, 1200);
+        return;
+    }
+    // Dismiss login overlay
+    document.getElementById('login-overlay').classList.add('login-hidden');
+    // Show username chip
+    document.getElementById('usernameDisplay').textContent = name;
+    document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+    document.getElementById('user-chip').style.display = 'flex';
+}
+
+// Allow pressing Enter in the login input
+document.addEventListener('DOMContentLoaded', () => {
+    const loginInput = document.getElementById('loginInput');
+    if (loginInput) {
+        loginInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') handleLogin();
+        });
+        loginInput.focus();
+    }
+});
+
 let grid = document.getElementById("grid");
 
 let solution          = null;
