@@ -1,17 +1,24 @@
 // ── Login ─────────────────────────────────────────────────────────────────────
 function handleLogin() {
-    const input = document.getElementById('loginInput');
-    const name  = input.value.trim();
-    if (!name) {
-        input.classList.add('login-error');
-        input.placeholder = 'Please enter your name!';
-        input.focus();
-        setTimeout(() => {
-            input.classList.remove('login-error');
-            input.placeholder = 'Your name';
-        }, 1200);
+    const userInput = document.getElementById('loginInput');
+    const passInput = document.getElementById('loginPassword');
+    const errorEl   = document.getElementById('loginError');
+    const name      = userInput.value.trim();
+    const pass      = passInput.value.trim();
+
+    // Reset error state
+    userInput.style.borderColor = '';
+    passInput.style.borderColor = '';
+    errorEl.textContent = '';
+
+    if (!name || !pass) {
+        errorEl.textContent = 'Please enter both username and password.';
+        if (!name) userInput.style.borderColor = 'var(--text-mistake)';
+        if (!pass) passInput.style.borderColor = 'var(--text-mistake)';
+        if (!name) userInput.focus(); else passInput.focus();
         return;
     }
+
     // Dismiss login overlay
     document.getElementById('login-overlay').classList.add('login-hidden');
     // Show username chip
@@ -20,14 +27,16 @@ function handleLogin() {
     document.getElementById('user-chip').style.display = 'flex';
 }
 
-// Allow pressing Enter in the login input
+// Allow pressing Enter in either login input
 document.addEventListener('DOMContentLoaded', () => {
-    const loginInput = document.getElementById('loginInput');
+    const loginInput    = document.getElementById('loginInput');
+    const loginPassword = document.getElementById('loginPassword');
     if (loginInput) {
-        loginInput.addEventListener('keydown', e => {
-            if (e.key === 'Enter') handleLogin();
-        });
+        loginInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
         loginInput.focus();
+    }
+    if (loginPassword) {
+        loginPassword.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
     }
 });
 
@@ -127,7 +136,6 @@ for (let i = 0; i < 9; i++) {
         input.type      = "text";
         input.maxLength = 1;
         input.className = "cell";
-        // Allow normal keyboard typing — no inputmode suppression
 
         input.oninput = function () {
             if (paused) { this.value = this.dataset.prev || ''; return; }
@@ -172,7 +180,6 @@ for (let i = 0; i < 9; i++) {
                 cells[idx].classList.add('selected');
                 highlightRelated(idx);
             }
-            // Delete / Backspace clears cell
             if ((e.key === 'Delete' || e.key === 'Backspace') && !this.readOnly) {
                 e.preventDefault();
                 const cells = Array.from(document.querySelectorAll('.cell'));
@@ -284,7 +291,6 @@ function resetPuzzle() {
     document.getElementById("timer").textContent = "00:00";
     showMessage('');
     undoStack = []; redoStack = [];
-    // Auto-restart timer
     autoStartTimer();
 }
 
@@ -296,8 +302,7 @@ function newGame() {
 
 // ── Generate ──────────────────────────────────────────────────────────────────
 async function generatePuzzle(level) {
-    // Show loading state immediately so user knows something is happening
-    showMessage("Generating puzzle…");
+    showMessage("Generating puzzle\u2026");
     document.querySelectorAll('.diff-btn').forEach(b => b.disabled = true);
 
     try {
@@ -336,7 +341,6 @@ async function generatePuzzle(level) {
                 value !== 0 ? input.classList.add("clue") : input.classList.remove("clue");
             }
 
-        // Auto-start timer
         autoStartTimer();
 
     } catch (error) {
@@ -380,22 +384,20 @@ function updateTimer() {
 
 // ── Pause ─────────────────────────────────────────────────────────────────────
 function togglePause() {
-    if (!startTime && !paused) return;   // no active game
+    if (!startTime && !paused) return;
     paused = !paused;
     setPauseUI(paused);
     if (paused) {
-        // accumulate elapsed before pausing
         pausedElapsed += Math.floor((Date.now() - startTime) / 1000);
         startTime = null;
     } else {
-        // resume
         startTime = Date.now();
     }
 }
 
 function setPauseUI(isPaused) {
     document.getElementById('pause-overlay').style.display = isPaused ? 'flex' : 'none';
-    document.getElementById('pauseBtn').textContent = isPaused ? '▶' : '⏸';
+    document.getElementById('pauseBtn').textContent = isPaused ? '\u25b6' : '\u23f8';
     document.getElementById('pauseBtn').title = isPaused ? 'Resume' : 'Pause';
 }
 
@@ -411,7 +413,7 @@ function checkCompletion() {
     stopTimer();
     setPauseUI(false);
     const min = Math.floor(elapsed/60), sec = elapsed%60;
-    showMessage(`🎉 Solved in ${min}:${sec.toString().padStart(2,'0')}!`);
+    showMessage(`\U0001f389 Solved in ${min}:${sec.toString().padStart(2,'0')}!`);
 }
 
 // ── Difficulty badge ──────────────────────────────────────────────────────────
