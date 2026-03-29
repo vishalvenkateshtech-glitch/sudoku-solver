@@ -33,29 +33,48 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+        /* Login inputs — match existing card aesthetic */
+        .login-field { margin-bottom: 0.85rem; text-align: left; }
+        .login-field label { display: block; margin-bottom: 0.3rem; }
+        .login-input {
+            width: 100%; box-sizing: border-box;
+            padding: 0.5rem 0.7rem;
+            border: 1.5px solid #d1c4a8;
+            border-radius: 8px;
+            font-family: inherit; font-size: 0.95rem;
+            background: #fff; color: #333;
+            outline: none; transition: border-color 0.15s;
+        }
+        .login-input:focus { border-color: #c8922a; }
+        .login-input.is-error { border-color: #e53935; }
+        .login-error-msg {
+            color: #e53935; font-size: 0.8rem;
+            text-align: center; min-height: 1.1em;
+            margin: 0.2rem 0 0.6rem;
+        }
+    </style>
 </head>
 <body>
 
 <div class="grain"></div>
 
-<!-- ── Login overlay ── -->
-<div id="login-overlay" class="login-overlay">
-    <div class="login-card">
-        <div class="login-logo">♟</div>
-        <h2 class="login-title">SUDOKU</h2>
-        <p class="login-subtitle">Enter your name to play</p>
+<!-- ── Login overlay (added) ── -->
+<div id="login-page" class="onboarding-overlay">
+    <div class="onboarding-card">
+        <h2>Sign In</h2>
         <div class="login-field">
-            <input
-                type="text"
-                id="loginInput"
-                class="login-input"
-                placeholder="Your name"
-                maxlength="24"
-                autocomplete="off"
-                spellcheck="false"
-            >
+            <label class="onboarding-skip">Username</label>
+            <input id="login-username" type="text" placeholder="Enter username" autocomplete="username" class="login-input">
         </div>
-        <button class="login-btn" onclick="handleLogin()">Play →</button>
+        <div class="login-field">
+            <label class="onboarding-skip">Password</label>
+            <input id="login-password" type="password" placeholder="Enter password" autocomplete="current-password" class="login-input">
+        </div>
+        <p id="login-error-msg" class="login-error-msg"></p>
+        <button class="onboarding-btn" onclick="handleLogin()">Sign In</button>
+        <p class="onboarding-skip">Demo — any non-empty credentials work</p>
     </div>
 </div>
 
@@ -77,14 +96,10 @@
     </div>
 </div>
 
-<div class="app-wrapper">
+<div class="app-wrapper" id="app-wrapper" style="display:none">
 
     <header>
         <h1>SUDOKU</h1>
-        <div id="user-chip" class="user-chip" style="display:none">
-            <span class="user-avatar" id="userAvatar"></span>
-            <span id="usernameDisplay"></span>
-        </div>
         <div class="header-actions">
             <button class="install-btn" id="installBtn" style="display:none" title="Install App">
                 ⬇ Install
@@ -232,6 +247,43 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.warn('[SW] Registration failed:', err));
     });
 }
+</script>
+
+<!-- ── Login logic (added) ── -->
+<script>
+(function () {
+    var loginPage  = document.getElementById('login-page');
+    var appWrapper = document.getElementById('app-wrapper');
+    var errorMsg   = document.getElementById('login-error-msg');
+    var userInput  = document.getElementById('login-username');
+    var passInput  = document.getElementById('login-password');
+
+    function handleLogin() {
+        var u = userInput.value.trim();
+        var p = passInput.value.trim();
+        userInput.classList.remove('is-error');
+        passInput.classList.remove('is-error');
+        errorMsg.textContent = '';
+
+        if (!u || !p) {
+            errorMsg.textContent = 'Please enter both username and password.';
+            if (!u) userInput.classList.add('is-error');
+            if (!p) passInput.classList.add('is-error');
+            return;
+        }
+
+        loginPage.style.display = 'none';
+        appWrapper.style.display = 'block';
+    }
+
+    window.handleLogin = handleLogin;
+
+    [userInput, passInput].forEach(function (el) {
+        el.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') handleLogin();
+        });
+    });
+}());
 </script>
 
 </body>
